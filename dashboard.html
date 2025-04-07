@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Entry Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <h1 class="text-xl font-semibold text-gray-900">Data Entry</h1>
+            <button id="logoutBtn" class="text-sm text-blue-600 hover:text-blue-800">Logout</button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
+            <h2 class="text-lg font-medium text-gray-900 mb-4">New Entry</h2>
+            <form id="entryForm" class="space-y-4">
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                    <input type="text" id="title" required
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea id="description" rows="3"
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                </div>
+                <button type="submit"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <span id="submitText">Submit Entry</span>
+                    <span id="spinner" class="ml-2 hidden">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </span>
+                </button>
+            </form>
+        </div>
+
+        <div class="flex justify-end">
+            <a href="track.html" class="text-sm text-blue-600 hover:text-blue-800 flex items-center">
+                View All Entries <i class="fas fa-arrow-right ml-1"></i>
+            </a>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const entryForm = document.getElementById('entryForm');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const spinner = document.getElementById('spinner');
+            const submitText = document.getElementById('submitText');
+
+            entryForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                spinner.classList.remove('hidden');
+                submitText.textContent = 'Processing...';
+
+                const entry = {
+                    title: document.getElementById('title').value,
+                    description: document.getElementById('description').value
+                };
+
+                setTimeout(() => {
+                    saveEntry(entry);
+                    entryForm.reset();
+                    spinner.classList.add('hidden');
+                    submitText.textContent = 'Submit Entry';
+                    alert('Entry saved successfully!');
+                }, 800);
+            });
+
+            logoutBtn.addEventListener('click', function() {
+                logout();
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>
